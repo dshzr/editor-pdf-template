@@ -68,7 +68,12 @@ const PdfForm: React.FC<PdfFormProps> = ({
 
                     {/* Data */}
                     <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
-                        <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">Data</h3>
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200">Data</h3>
+                            <span className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                                Pré-preenchido com hoje
+                            </span>
+                        </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             {fields.filter(field => ['dia', 'mes', 'ano'].includes(field.name)).map(field => (
                                 <FormField

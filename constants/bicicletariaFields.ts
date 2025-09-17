@@ -53,15 +53,23 @@ export const BICICLETARIA_FIELDS: PDFField[] = [
     }
 ];
 
+// Função para obter a data atual
+const getCurrentDate = () => {
+    const today = new Date();
+    return {
+        dia: today.getDate().toString().padStart(2, '0'),
+        mes: (today.getMonth() + 1).toString().padStart(2, '0'),
+        ano: today.getFullYear().toString()
+    };
+};
+
 export const INITIAL_BICICLETARIA_DATA = {
     nome: '',
     quantia: '',
     produto: '',
     cor: '',
     numeracao: '',
-    dia: '',
-    mes: '',
-    ano: '',
+    ...getCurrentDate(),
     revisao1: '',
     revisao2: ''
 };
