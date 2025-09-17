@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { PDFField } from './types';
-import { extractPlaceholders, replacePlaceholdersAndGeneratePdf } from './services/pdfService';
+import { BicicletariaData } from './types';
+import { replacePlaceholdersAndGeneratePdf } from './services/pdfService';
+import { BICICLETARIA_FIELDS, INITIAL_BICICLETARIA_DATA } from './constants/bicicletariaFields';
 import Header from './components/Header';
 import FileUpload from './components/FileUpload';
 import PdfForm from './components/PdfForm';
@@ -10,8 +11,7 @@ import DownloadCard from './components/DownloadCard';
 
 const App: React.FC = () => {
     const [pdfFile, setPdfFile] = useState<File | null>(null);
-    const [pdfFields, setPdfFields] = useState<PDFField[]>([]);
-    const [formData, setFormData] = useState<Record<string, string>>({});
+    const [formData, setFormData] = useState<BicicletariaData>(INITIAL_BICICLETARIA_DATA);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [loadingMessage, setLoadingMessage] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
@@ -31,19 +31,6 @@ const App: React.FC = () => {
                     const savedFile = new File([blob], savedPdfFileName, { type: 'application/pdf' });
                     
                     setPdfFile(savedFile);
-                    const fields = await extractPlaceholders(savedFile);
-
-                    if (fields.length === 0) {
-                        setError('O template salvo não contém placeholders. Por favor, envie um novo.');
-                        resetState(); // Limpa o template inválido do storage
-                    } else {
-                        setPdfFields(fields);
-                        const initialFormData = fields.reduce((acc, field) => {
-                            acc[field.name] = '';
-                            return acc;
-                        }, {} as Record<string, string>);
-                        setFormData(initialFormData);
-                    }
                 } catch (err) {
                     console.error('Failed to load saved PDF from localStorage:', err);
                     setError('Não foi possível carregar o template salvo. Ele pode estar corrompido.');
@@ -59,8 +46,7 @@ const App: React.FC = () => {
 
     const resetState = () => {
         setPdfFile(null);
-        setPdfFields([]);
-        setFormData({});
+        setFormData(INITIAL_BICICLETARIA_DATA);
         setGeneratedPdfUrl(null);
         setError(null);
         localStorage.removeItem('savedPdfTemplate');
@@ -68,11 +54,7 @@ const App: React.FC = () => {
     };
 
     const resetForm = () => {
-        const initialFormData = pdfFields.reduce((acc, field) => {
-            acc[field.name] = '';
-            return acc;
-        }, {} as Record<string, string>);
-        setFormData(initialFormData);
+        setFormData(INITIAL_BICICLETARIA_DATA);
         setGeneratedPdfUrl(null);
         setError(null);
     };
@@ -87,37 +69,25 @@ const App: React.FC = () => {
         }
 
         setIsLoading(true);
-        setLoadingMessage('Analisando o PDF...');
+        setLoadingMessage('Carregando template da F.A BICICLETARIA...');
         
         try {
-            const fields = await extractPlaceholders(file);
-            if (fields.length === 0) {
-                setError('Nenhum placeholder como {{exemplo}} foi encontrado. Verifique se o seu PDF contém textos no formato correto para substituição.');
-                setPdfFile(null);
-            } else {
-                setPdfFile(file);
-                setPdfFields(fields);
-                const initialFormData = fields.reduce((acc, field) => {
-                    acc[field.name] = '';
-                    return acc;
-                }, {} as Record<string, string>);
-                setFormData(initialFormData);
+            setPdfFile(file);
 
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => {
-                    try {
-                        localStorage.setItem('savedPdfTemplate', reader.result as string);
-                        localStorage.setItem('savedPdfFileName', file.name);
-                    } catch (e) {
-                        console.error("Error saving to localStorage:", e);
-                        setError("Não foi possível salvar o template. O armazenamento do navegador pode estar cheio.");
-                    }
-                };
-                reader.onerror = (error) => {
-                    console.error("Could not convert file to base64:", error);
-                };
-            }
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                try {
+                    localStorage.setItem('savedPdfTemplate', reader.result as string);
+                    localStorage.setItem('savedPdfFileName', file.name);
+                } catch (e) {
+                    console.error("Error saving to localStorage:", e);
+                    setError("Não foi possível salvar o template. O armazenamento do navegador pode estar cheio.");
+                }
+            };
+            reader.onerror = (error) => {
+                console.error("Could not convert file to base64:", error);
+            };
         } catch (err) {
             console.error(err);
             setError('Não foi possível processar o arquivo PDF. Ele pode estar corrompido ou protegido.');
@@ -128,7 +98,7 @@ const App: React.FC = () => {
         }
     }, []);
     
-    const handleFormChange = (fieldName: string, value: string) => {
+    const handleFormChange = (fieldName: keyof BicicletariaData, value: string) => {
         setFormData(prev => ({ ...prev, [fieldName]: value }));
     };
     
@@ -165,11 +135,11 @@ const App: React.FC = () => {
                         
                         {!pdfFile && !isLoading && <FileUpload onFileSelect={handleFileChange} />}
                         
-                        {pdfFile && pdfFields.length > 0 && (
+                        {pdfFile && (
                             <>
                                 {!generatedPdfUrl ? (
                                     <PdfForm
-                                        fields={pdfFields}
+                                        fields={BICICLETARIA_FIELDS}
                                         formData={formData}
                                         onFormChange={handleFormChange}
                                         onGeneratePdf={handleGeneratePdf}
@@ -189,7 +159,7 @@ const App: React.FC = () => {
                     </div>
                 </div>
                 <footer className="text-center mt-8 text-gray-500 dark:text-gray-400 text-sm">
-                    <p>Desenvolvido com React e Tailwind CSS</p>
+                    <p>Desenvolvido por Wellington Santos </p>
                 </footer>
             </main>
         </div>

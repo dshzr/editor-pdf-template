@@ -5,10 +5,13 @@ const Header: React.FC = () => {
         <header className="bg-white dark:bg-gray-800 shadow-md">
             <div className="container mx-auto px-4 py-4 md:px-8 flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-indigo-500" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M4 2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H4zm1.5 2.5a.5.5 0 000 1h5a.5.5 0 000-1h-5zM5 8a.5.5 0 01.5-.5h9a.5.5 0 010 1h-9A.5.5 0 015 8zm0 2a.5.5 0 01.5-.5h9a.5.5 0 010 1h-9A.5.5 0 015 10zm0 2a.5.5 0 01.5-.5h4a.5.5 0 010 1h-4A.5.5 0 015 12z" clipRule="evenodd" />
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                     </svg>
-                    <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Editor de PDF por Template</h1>
+                    <div>
+                        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">F.A BICICLETARIA</h1>
+                        <p className="text-sm text-gray-600 dark:text-gray-300">Sistema de Documentos</p>
+                    </div>
                 </div>
             </div>
         </header>

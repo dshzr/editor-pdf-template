@@ -42,8 +42,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect }) => {
 
     return (
         <div className="text-center">
-            <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Envie seu Modelo de PDF</h2>
-            <p className="text-gray-500 dark:text-gray-400 mb-6">Para começar, envie um PDF que tenha textos no formato <code className="bg-gray-200 dark:bg-gray-700 p-1 rounded">{'{{exemplo}}'}</code> para serem substituídos.</p>
+            <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Envie o Template da F.A BICICLETARIA</h2>
+            <p className="text-gray-500 dark:text-gray-400 mb-6">Envie o template PDF da bicicletaria com os campos: <code className="bg-gray-200 dark:bg-gray-700 p-1 rounded">{'{{nome}}'}</code>, <code className="bg-gray-200 dark:bg-gray-700 p-1 rounded">{'{{produto}}'}</code>, <code className="bg-gray-200 dark:bg-gray-700 p-1 rounded">{'{{quantia}}'}</code>, etc.</p>
             <div
                 onDragEnter={handleDragEnter}
                 onDragLeave={handleDragLeave}
