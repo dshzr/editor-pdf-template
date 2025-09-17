@@ -1,0 +1,5 @@
+{
+  "name": "Editor de PDF por Template",
+  "description": "Faça upload de um modelo de PDF com textos como {{exemplo}} e substitua-os para gerar um novo documento.",
+  "requestFramePermissions": []
+}
